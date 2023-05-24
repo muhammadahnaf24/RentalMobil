@@ -13,33 +13,49 @@ import view.ViewMenuUtama;
  * @author M S I
  */
 public class ModelLogin {
+    private String usernameModel;
+    private String passwordModel;
+    
     private Connection connection;
     
+    public String getUsernameModel() {
+        return usernameModel;
+    }
+
+    public void setUsernameModel(String usernameModel) {
+        this.usernameModel = usernameModel;
+    }
+
+    public String getPasswordModel() {
+        return passwordModel;
+    }
+
+    public void setPasswordModel(String passwordModel) {
+        this.passwordModel = passwordModel;
+    }
     public ModelLogin() {
         Koneksi koneksi = new Koneksi();
         connection = koneksi.getConnection();
     }
     
-    public boolean login(String username, String password) {
+     public void login() {
+        String sql = "SELECT * FROM admin WHERE username = ? AND password = ?";
+
         try {
-            String query = "SELECT * FROM users WHERE username = ? AND password = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, username);
-            statement.setString(2, password);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, getUsernameModel());
+            statement.setString(2, getPasswordModel());
             ResultSet resultSet = statement.executeQuery();
-            
+
             if (resultSet.next()) {
                 JOptionPane.showMessageDialog(null, "Login Berhasil");
-                ViewMenuUtama menuUtama = new ViewMenuUtama();
-                menuUtama.setVisible(true);
-                return true;
+                ViewMenuUtama MU = new ViewMenuUtama();
+                MU.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(null, "Username atau password salah");
-                return false;
+                JOptionPane.showMessageDialog(null, "Username atau Password Salah");
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-            return false;
+        } catch (SQLException ex) {
+            JOptionPane.showConfirmDialog(null, "Login Gagal \n" + ex);
         }
     }
 }

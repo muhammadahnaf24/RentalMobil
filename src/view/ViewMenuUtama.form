@@ -25,13 +25,15 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="648" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="DPMenu" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Component id="jPanel1" max="32767" attributes="0"/>
+          <Component id="DPMenu" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -53,14 +55,14 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="BtnMobil" max="32767" attributes="0"/>
-                      <Component id="BtnPelanggan" max="32767" attributes="0"/>
-                      <Component id="BtnEdit" pref="219" max="32767" attributes="0"/>
-                      <Component id="BtnBatal" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="BtnPengembalian" min="-2" pref="219" max="-2" attributes="0"/>
+                      <Component id="BtnPelanggan" min="-2" pref="219" max="-2" attributes="0"/>
+                      <Component id="BtnMobil" min="-2" pref="219" max="-2" attributes="0"/>
+                      <Component id="BtnPeminjaman" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="25" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -73,9 +75,9 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="BtnPelanggan" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="BtnEdit" min="-2" max="-2" attributes="0"/>
+                  <Component id="BtnPeminjaman" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="BtnBatal" min="-2" max="-2" attributes="0"/>
+                  <Component id="BtnPengembalian" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="329" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -88,9 +90,9 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="93" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="104" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -126,12 +128,12 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnMobilActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="BtnBatal">
+        <Component class="javax.swing.JButton" name="BtnPengembalian">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="PELANGGAN"/>
+            <Property name="text" type="java.lang.String" value="PENGEMBALIAN"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="BtnPelanggan">
@@ -141,16 +143,37 @@
             </Property>
             <Property name="text" type="java.lang.String" value="PELANGGAN"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPelangganActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="BtnEdit">
+        <Component class="javax.swing.JButton" name="BtnPeminjaman">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="PEMINJAMAN"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPeminjamanActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
+    </Container>
+    <Container class="javax.swing.JDesktopPane" name="DPMenu">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="684" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
     </Container>
   </SubComponents>
 </Form>

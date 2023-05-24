@@ -13,20 +13,22 @@ import javax.swing.JTextField;
  * @author M S I
  */
 public class ViewLogin extends javax.swing.JFrame {
-
+    private ControllerLogin CL;
+    
     /**
      * Creates new form ViewLogin
      */
     public ViewLogin() {
         initComponents();
+        CL = new ControllerLogin(this);
     }
 
-    public String getUsername() {
-        return TFUsername.getText();
+    public JTextField getTFUsername() {
+        return TFUsername;
     }
 
-    public String getPassword() {
-        return new String(TFPassword.getPassword());
+    public JPasswordField getTFPassword() {
+        return TFPassword;
     }
 
     public JButton getBtnLogin() {
@@ -67,8 +69,11 @@ public class ViewLogin extends javax.swing.JFrame {
         });
 
         BtnCancel.setText("Cancel");
-
-        TFPassword.setText("jPasswordField1");
+        BtnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -120,8 +125,14 @@ public class ViewLogin extends javax.swing.JFrame {
 
     private void BtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLoginActionPerformed
         // TODO add your handling code here:
+        CL.login();
         dispose();
     }//GEN-LAST:event_BtnLoginActionPerformed
+
+    private void BtnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelActionPerformed
+        // TODO add your handling code here:
+        CL.cancel();
+    }//GEN-LAST:event_BtnCancelActionPerformed
 
     /**
      * @param args the command line arguments

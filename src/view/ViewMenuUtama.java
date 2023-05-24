@@ -4,8 +4,13 @@
  */
 package view;
 
-/**
- *
+import javax.swing.JInternalFrame;
+import view.ViewLogin;
+import view.ViewMobil;
+import view.ViewPelanggan;
+import view.ViewPeminjaman;
+
+ /*
  * @author M S I
  */
 public class ViewMenuUtama extends javax.swing.JFrame {
@@ -30,9 +35,10 @@ public class ViewMenuUtama extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         BtnMobil = new javax.swing.JButton();
-        BtnBatal = new javax.swing.JButton();
+        BtnPengembalian = new javax.swing.JButton();
         BtnPelanggan = new javax.swing.JButton();
-        BtnEdit = new javax.swing.JButton();
+        BtnPeminjaman = new javax.swing.JButton();
+        DPMenu = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,9 +53,9 @@ public class ViewMenuUtama extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(93, 93, 93)
+                .addGap(78, 78, 78)
                 .addComponent(jLabel1)
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -67,14 +73,24 @@ public class ViewMenuUtama extends javax.swing.JFrame {
             }
         });
 
-        BtnBatal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        BtnBatal.setText("PELANGGAN");
+        BtnPengembalian.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BtnPengembalian.setText("PENGEMBALIAN");
 
         BtnPelanggan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnPelanggan.setText("PELANGGAN");
+        BtnPelanggan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnPelangganActionPerformed(evt);
+            }
+        });
 
-        BtnEdit.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        BtnEdit.setText("PEMINJAMAN");
+        BtnPeminjaman.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BtnPeminjaman.setText("PEMINJAMAN");
+        BtnPeminjaman.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnPeminjamanActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -82,13 +98,13 @@ public class ViewMenuUtama extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(BtnMobil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BtnPelanggan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BtnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
-                    .addComponent(BtnBatal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BtnPengembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnMobil, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnPeminjaman, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,10 +115,21 @@ public class ViewMenuUtama extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BtnPelanggan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BtnEdit)
+                .addComponent(BtnPeminjaman)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BtnBatal)
+                .addComponent(BtnPengembalian)
                 .addGap(0, 329, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout DPMenuLayout = new javax.swing.GroupLayout(DPMenu);
+        DPMenu.setLayout(DPMenuLayout);
+        DPMenuLayout.setHorizontalGroup(
+            DPMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 684, Short.MAX_VALUE)
+        );
+        DPMenuLayout.setVerticalGroup(
+            DPMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -111,11 +138,13 @@ public class ViewMenuUtama extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 648, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(DPMenu))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(DPMenu)
         );
 
         pack();
@@ -123,7 +152,37 @@ public class ViewMenuUtama extends javax.swing.JFrame {
 
     private void BtnMobilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnMobilActionPerformed
         // TODO add your handling code here:
+        ViewMobil VM = new ViewMobil();
+        VM.setVisible(true); // Tampilkan ViewMobil
+
+        // Buat JInternalFrame dan tambahkan ViewMobil ke dalamnya
+        JInternalFrame internalFrame = new JInternalFrame("View Mobil", true, true, true, true);
+        internalFrame.getContentPane().add(VM);
+        internalFrame.pack(); // Mengatur ukuran internalFrame sesuai dengan komponen di dalamnya
+        internalFrame.setVisible(true); // Tampilkan internalFrame
+
+        // Tambahkan internalFrame ke dalam DesktopPane
+        DPMenu.add(internalFrame);
     }//GEN-LAST:event_BtnMobilActionPerformed
+
+    private void BtnPelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPelangganActionPerformed
+        // TODO add your handling code here:
+        ViewPelanggan VP = new ViewPelanggan();
+        VP.setVisible(true); // Tampilkan ViewMobil
+
+        // Buat JInternalFrame dan tambahkan ViewMobil ke dalamnya
+        JInternalFrame internalFrame = new JInternalFrame("View Mobil", true, true, true, true);
+        internalFrame.getContentPane().add(VP);
+        internalFrame.pack(); // Mengatur ukuran internalFrame sesuai dengan komponen di dalamnya
+        internalFrame.setVisible(true); // Tampilkan internalFrame
+
+        // Tambahkan internalFrame ke dalam DesktopPane
+        DPMenu.add(internalFrame);
+    }//GEN-LAST:event_BtnPelangganActionPerformed
+
+    private void BtnPeminjamanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPeminjamanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnPeminjamanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -161,10 +220,11 @@ public class ViewMenuUtama extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnBatal;
-    private javax.swing.JButton BtnEdit;
     private javax.swing.JButton BtnMobil;
     private javax.swing.JButton BtnPelanggan;
+    private javax.swing.JButton BtnPeminjaman;
+    private javax.swing.JButton BtnPengembalian;
+    private javax.swing.JDesktopPane DPMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;

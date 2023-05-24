@@ -4,23 +4,137 @@ package view;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import controller.ControllerMobil;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.*;
 import database.Koneksi;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author M S I
  */
-public class ViewMobill extends javax.swing.JFrame {
+public class ViewMobil extends javax.swing.JFrame {
 
     /**
      * Creates new form ViewMobill
      */
-    public ViewMobill() {
+    
+    private ControllerMobil CM;
+    private DefaultTableModel tbmodel;
+    
+    public ViewMobil() {
         initComponents();
+        
+        CM = new ControllerMobil(this);
+        tbmodel = new DefaultTableModel();
+        TableMobil.setModel(tbmodel);
+  
+        tampilDataMobil();
+        CM.kontrolButton1();
     }
+    public JButton getBtnBatal() {
+        return BtnBatal;
+    }
+
+    public JButton getBtnHapus() {
+        return BtnHapus;
+    }
+
+    public JButton getBtnTambah() {
+        return BtnTambah;
+    }
+
+    public JButton getBtnEdit() {
+        return BtnEdit;
+    }
+
+    public JTable getTableMobil() {
+        return TableMobil;
+    }
+    
+    public JTextField getTFIDMobil() {
+        return TFIDMobil;
+    }
+    
+    public JTextField getTFMerk() {
+        return TFMerk;
+    }
+
+    public JTextField getTFNopol() {
+        return TFNopol;
+    }
+
+    public JTextField getTFTahun() {
+        return TFTahun;
+    }
+
+    public JTextField getTFTipe() {
+        return TFTipe;
+    }
+
+    public JTextField getTFHarga() {
+        return TFHarga;
+    }
+    
+public void tampilDataMobil() {
+    try {
+        // Mendapatkan objek koneksi dari kelas Koneksi
+        Koneksi connect = new Koneksi();
+
+        String[] kolom = {"ID Mobil", "Merk", "Tipe", "Tahun", "Nopol", "Harga"};
+        tbmodel.setColumnIdentifiers(kolom);
+
+        // Menghapus data yang ada di tabel
+        tbmodel.setRowCount(0);
+
+        String sql = "SELECT * FROM mobil";
+
+        PreparedStatement statement = connect.getConnection().prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+
+        while (result.next()) {
+            int id_mobil = result.getInt("id_mobil");
+            String merk = result.getString("merk");
+            String tipe = result.getString("tipe");
+            int tahun = result.getInt("tahun");
+            String nopol = result.getString("nopol");
+            int harga = result.getInt("harga");
+
+            Object[] data = {id_mobil, merk, tipe, tahun, nopol, harga};
+            tbmodel.addRow(data);
+        }
+
+        statement.close();
+        result.close();
+        connect.getConnection().close();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Gagal mendapatkan data mobil: " + ex.getMessage());
+    }
+}
+
+
+public void ambilDataMobil() {
+    int barisTerpilih = TableMobil.getSelectedRow();
+
+        String id_mobil = TableMobil.getValueAt(barisTerpilih, 0).toString();
+        String merk = TableMobil.getValueAt(barisTerpilih, 1).toString();
+        String tipe = TableMobil.getValueAt(barisTerpilih, 2).toString();
+        int tahun = Integer.parseInt(TableMobil.getValueAt(barisTerpilih, 3).toString());
+        String nopol = TableMobil.getValueAt(barisTerpilih, 4).toString();
+        int harga = Integer.parseInt(TableMobil.getValueAt(barisTerpilih, 5).toString());
+        
+        TFIDMobil.setText(id_mobil);
+        TFMerk.setText(merk);
+        TFTipe.setText(tipe);
+        TFTahun.setText(Integer.toString(tahun));
+        TFNopol.setText(nopol);
+        TFHarga.setText(Integer.toString(harga));
+
+        CM.kontrolButton2();
+}
+
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,8 +160,10 @@ public class ViewMobill extends javax.swing.JFrame {
         TFHarga = new javax.swing.JTextField();
         BtnTambah = new javax.swing.JButton();
         BtnBatal = new javax.swing.JButton();
-        BtnBatal1 = new javax.swing.JButton();
+        BtnHapus = new javax.swing.JButton();
         BtnEdit = new javax.swing.JButton();
+        TFIDMobil = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -97,15 +213,40 @@ public class ViewMobill extends javax.swing.JFrame {
 
         BtnTambah.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnTambah.setText("Tambah");
+        BtnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnTambahActionPerformed(evt);
+            }
+        });
 
         BtnBatal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnBatal.setText("Batal");
+        BtnBatal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnBatalActionPerformed(evt);
+            }
+        });
 
-        BtnBatal1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        BtnBatal1.setText("Hapus");
+        BtnHapus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BtnHapus.setText("Hapus");
+        BtnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnHapusActionPerformed(evt);
+            }
+        });
 
         BtnEdit.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnEdit.setText("Edit");
+        BtnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnEditActionPerformed(evt);
+            }
+        });
+
+        TFIDMobil.setEditable(false);
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        jLabel8.setText("ID");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -116,27 +257,31 @@ public class ViewMobill extends javax.swing.JFrame {
                 .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(TFNopol, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(TFTahun, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(TFTipe, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(TFMerk, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel7)
                             .addGap(28, 28, 28)
-                            .addComponent(TFHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(TFHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(TFIDMobil, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(TFNopol, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(TFTahun, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(TFTipe, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(TFMerk, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -147,14 +292,18 @@ public class ViewMobill extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(BtnTambah)
                                 .addGap(47, 47, 47)
-                                .addComponent(BtnBatal1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(BtnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(7, 7, 7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TFIDMobil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TFMerk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
@@ -177,7 +326,7 @@ public class ViewMobill extends javax.swing.JFrame {
                 .addGap(51, 51, 51)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnTambah)
-                    .addComponent(BtnBatal1))
+                    .addComponent(BtnHapus))
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnBatal)
@@ -202,6 +351,11 @@ public class ViewMobill extends javax.swing.JFrame {
                 "ID Mobil", "Merk", "Tipe", "Nopol", "Harga"
             }
         ));
+        TableMobil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableMobilMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TableMobil);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -261,6 +415,35 @@ public class ViewMobill extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void BtnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTambahActionPerformed
+        // TODO add your handling code here:
+        CM.tambah();
+        tampilDataMobil();
+    }//GEN-LAST:event_BtnTambahActionPerformed
+
+    private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHapusActionPerformed
+        // TODO add your handling code here:
+        CM.hapus();
+        tampilDataMobil();
+    }//GEN-LAST:event_BtnHapusActionPerformed
+
+    private void BtnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditActionPerformed
+        // TODO add your handling code here:
+        CM.edit();
+        tampilDataMobil();
+    }//GEN-LAST:event_BtnEditActionPerformed
+
+    private void BtnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBatalActionPerformed
+        // TODO add your handling code here:
+        CM.kontrolButton1();
+        CM.bersihkan();
+    }//GEN-LAST:event_BtnBatalActionPerformed
+
+    private void TableMobilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMobilMouseClicked
+        // TODO add your handling code here:
+        ambilDataMobil();
+    }//GEN-LAST:event_TableMobilMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -278,30 +461,32 @@ public class ViewMobill extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewMobill.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewMobil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewMobill.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewMobil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewMobill.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewMobil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewMobill.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewMobil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ViewMobill().setVisible(true);
+                new ViewMobil().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBatal;
-    private javax.swing.JButton BtnBatal1;
     private javax.swing.JButton BtnEdit;
+    private javax.swing.JButton BtnHapus;
     private javax.swing.JButton BtnTambah;
     private javax.swing.JTextField TFHarga;
+    private javax.swing.JTextField TFIDMobil;
     private javax.swing.JTextField TFMerk;
     private javax.swing.JTextField TFNopol;
     private javax.swing.JTextField TFTahun;
@@ -314,6 +499,7 @@ public class ViewMobill extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

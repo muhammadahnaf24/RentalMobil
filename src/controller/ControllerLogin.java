@@ -4,6 +4,8 @@
  */
 package controller;
 
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import model.ModelLogin;
 import view.ViewLogin;
 /**
@@ -11,26 +13,26 @@ import view.ViewLogin;
  * @author M S I
  */
 public class ControllerLogin {
-    private ViewLogin view;
-    private ModelLogin model;
+    private ViewLogin VL;
+    private ModelLogin ML;
 
-    public ControllerLogin(ViewLogin view, ModelLogin model) {
-        this.view = view;
-        this.model = model;
+    public ControllerLogin(ViewLogin view) {
+        this.VL = view; 
 
-        // Attach action listener to the login button
-        view.getBtnLogin().addActionListener(e -> login());
     }
 
-    private void login() {
-        String username = view.getUsername();
-        String password = view.getPassword();
+    public void login() {
+        ML = new ModelLogin();
+        ML.setUsernameModel(VL.getTFUsername().getText());
+        ML.setPasswordModel(VL.getTFPassword().getText());
 
-        if (model.login(username, password)) {
-            // Login successful, do something
-        } else {
-            // Login failed, display an error message
-        }
+        ML.login();
+    }
+   
+    
+    public void cancel(){
+        VL.getTFUsername().setText("");
+        VL.getTFPassword().setText("");
     }
 }
     

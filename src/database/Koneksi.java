@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
+
 /**
  *
  * @author M S I
@@ -25,17 +26,12 @@ public class Koneksi {
     public Koneksi(){
         try{
             Class.forName(JDBC_DRIVER);
-            koneksi = (java.sql.Connection) DriverManager.getConnection(DB_URL, USER, PASS);
+            koneksi = DriverManager.getConnection(DB_URL, USER, PASS);
             System.out.println("Koneksi Berhasil");
-        }catch(Exception ex){
+        }catch(ClassNotFoundException | SQLException ex){
             JOptionPane.showMessageDialog(null, ex.getMessage());
             System.out.println("Koneksi Gagal");
         }
-    }
-
-    public Koneksi(Connection koneksi, Statement statement) {
-        this.koneksi = koneksi;
-        this.statement = statement;
     }
     
     public java.sql.Connection getConnection(){
