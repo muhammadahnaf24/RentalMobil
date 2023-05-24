@@ -4,7 +4,14 @@
  */
 package view;
 
+import database.Koneksi;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import view.ViewLogin;
 import view.ViewMobil;
 import view.ViewPelanggan;
@@ -18,10 +25,54 @@ public class ViewMenuUtama extends javax.swing.JFrame {
     /**
      * Creates new form ViewMenuUtama
      */
+    private DefaultTableModel tbmodel;
+    
     public ViewMenuUtama() {
         initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        tbmodel = new DefaultTableModel();
+        TBTransaksi.setModel(tbmodel);
+  
+        tampilDataPeminjaman();
     }
+    
+    public void tampilDataPeminjaman() {
+    try {
+        // Mendapatkan objek koneksi dari kelas Koneksi
+        Koneksi connect = new Koneksi();
 
+        String[] kolom = {"ID PEMINJAMAN", "ID MOBIL", "ID PELANGGAN", "TGL SEWA", "TGL KEMBALI", "TOTAL HARGA", "STATUS"};
+        tbmodel.setColumnIdentifiers(kolom);
+
+        // Menghapus data yang ada di tabel
+        tbmodel.setRowCount(0);
+
+        String sql = "SELECT * FROM peminjaman";
+
+        PreparedStatement statement = connect.getConnection().prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+
+        while (result.next()) {
+            int id_peminjama = result.getInt("id_peminjaman");
+            int id_pelanggan = result.getInt("id_pelanggan");
+            int id_mobil = result.getInt("id_mobil");
+            String tgl_sewa = result.getString("tgl_sewa");
+            String tgl_kembali = result.getString("tgl_kembali");
+            int total_harga = result.getInt("total_harga");
+            String status = result.getString("status");
+
+
+            Object[] data = {id_peminjama, id_pelanggan, id_mobil, tgl_sewa, tgl_kembali, total_harga,status};
+            tbmodel.addRow(data);
+        }
+
+        statement.close();
+        result.close();
+        connect.getConnection().close();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Gagal mendapatkan data: " + ex.getMessage());
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,14 +89,15 @@ public class ViewMenuUtama extends javax.swing.JFrame {
         BtnPengembalian = new javax.swing.JButton();
         BtnPelanggan = new javax.swing.JButton();
         BtnPeminjaman = new javax.swing.JButton();
-        DPMenu = new javax.swing.JDesktopPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TBTransaksi = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         jLabel1.setText("RENTAL MOBIL");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -53,16 +105,16 @@ public class ViewMenuUtama extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(78, 78, 78)
+                .addGap(53, 53, 53)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(16, 16, 16))
+                .addContainerGap())
         );
 
         BtnMobil.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -118,19 +170,22 @@ public class ViewMenuUtama extends javax.swing.JFrame {
                 .addComponent(BtnPeminjaman)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BtnPengembalian)
-                .addGap(0, 329, Short.MAX_VALUE))
+                .addGap(0, 502, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout DPMenuLayout = new javax.swing.GroupLayout(DPMenu);
-        DPMenu.setLayout(DPMenuLayout);
-        DPMenuLayout.setHorizontalGroup(
-            DPMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 684, Short.MAX_VALUE)
-        );
-        DPMenuLayout.setVerticalGroup(
-            DPMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        TBTransaksi.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        TBTransaksi.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID PEMINJAMAN", "ID MOBIL", "ID PELANGGAN", "TGL SEWA", "TGL KEMBALI", "TOTAL HARGA", "STATUS"
+            }
+        ));
+        jScrollPane1.setViewportView(TBTransaksi);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,12 +194,16 @@ public class ViewMenuUtama extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(DPMenu))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 948, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(DPMenu)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
 
         pack();
@@ -155,14 +214,14 @@ public class ViewMenuUtama extends javax.swing.JFrame {
         ViewMobil VM = new ViewMobil();
         VM.setVisible(true); // Tampilkan ViewMobil
 
-        // Buat JInternalFrame dan tambahkan ViewMobil ke dalamnya
-        JInternalFrame internalFrame = new JInternalFrame("View Mobil", true, true, true, true);
-        internalFrame.getContentPane().add(VM);
-        internalFrame.pack(); // Mengatur ukuran internalFrame sesuai dengan komponen di dalamnya
-        internalFrame.setVisible(true); // Tampilkan internalFrame
-
-        // Tambahkan internalFrame ke dalam DesktopPane
-        DPMenu.add(internalFrame);
+//        // Buat JInternalFrame dan tambahkan ViewMobil ke dalamnya
+//        JInternalFrame internalFrame = new JInternalFrame("View Mobil", true, true, true, true);
+//        internalFrame.getContentPane().add(VM);
+//        internalFrame.pack(); // Mengatur ukuran internalFrame sesuai dengan komponen di dalamnya
+//        internalFrame.setVisible(true); // Tampilkan internalFrame
+//
+//        // Tambahkan internalFrame ke dalam DesktopPane
+//        DPMenu.add(internalFrame);
     }//GEN-LAST:event_BtnMobilActionPerformed
 
     private void BtnPelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPelangganActionPerformed
@@ -170,18 +229,20 @@ public class ViewMenuUtama extends javax.swing.JFrame {
         ViewPelanggan VP = new ViewPelanggan();
         VP.setVisible(true); // Tampilkan ViewMobil
 
-        // Buat JInternalFrame dan tambahkan ViewMobil ke dalamnya
-        JInternalFrame internalFrame = new JInternalFrame("View Mobil", true, true, true, true);
-        internalFrame.getContentPane().add(VP);
-        internalFrame.pack(); // Mengatur ukuran internalFrame sesuai dengan komponen di dalamnya
-        internalFrame.setVisible(true); // Tampilkan internalFrame
-
-        // Tambahkan internalFrame ke dalam DesktopPane
-        DPMenu.add(internalFrame);
+//        // Buat JInternalFrame dan tambahkan ViewMobil ke dalamnya
+//        JInternalFrame internalFrame = new JInternalFrame("View Mobil", true, true, true, true);
+//        internalFrame.getContentPane().add(VP);
+//        internalFrame.pack(); // Mengatur ukuran internalFrame sesuai dengan komponen di dalamnya
+//        internalFrame.setVisible(true); // Tampilkan internalFrame
+//
+//        // Tambahkan internalFrame ke dalam DesktopPane
+//        DPMenu.add(internalFrame);
     }//GEN-LAST:event_BtnPelangganActionPerformed
 
     private void BtnPeminjamanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPeminjamanActionPerformed
         // TODO add your handling code here:
+        ViewPeminjaman VPp = new ViewPeminjaman();
+        VPp.setVisible(true); // Tampilkan ViewMobil
     }//GEN-LAST:event_BtnPeminjamanActionPerformed
 
     /**
@@ -224,9 +285,10 @@ public class ViewMenuUtama extends javax.swing.JFrame {
     private javax.swing.JButton BtnPelanggan;
     private javax.swing.JButton BtnPeminjaman;
     private javax.swing.JButton BtnPengembalian;
-    private javax.swing.JDesktopPane DPMenu;
+    private javax.swing.JTable TBTransaksi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

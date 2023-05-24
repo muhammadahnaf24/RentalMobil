@@ -24,6 +24,7 @@ public class ViewMobil extends javax.swing.JFrame {
     
     public ViewMobil() {
         initComponents();
+        setLocationRelativeTo(this);
         
         CM = new ControllerMobil(this);
         tbmodel = new DefaultTableModel();

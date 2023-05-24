@@ -17,7 +17,7 @@ public class ModelPeminjaman {
     private int idPeminjaman;
     private int idPelanggan;
     private int idMobil;
-    private Date tglPinjam;
+    private Date tglSewa;
     private Date tglKembali;
     private int totalHarga;
     
@@ -31,28 +31,28 @@ public class ModelPeminjaman {
         this.idPeminjaman = idPeminjaman;
     }
 
-    public int getIdPelanggan() {
+    public int getIDPelanggan() {
         return idPelanggan;
     }
 
-    public void setIdPelanggan(int idPelanggan) {
+    public void setIDPelanggan(int idPelanggan) {
         this.idPelanggan = idPelanggan;
     }
 
-    public void setIdMobil(int idMobil) {
+    public void setIDMobil(int idMobil) {
         this.idMobil = idMobil;
     }
 
-    public int getIdMobil() {
+    public int getIDMobil() {
         return idMobil;
     }
     
-    public Date getTglPinjam() {
-        return tglPinjam;
+    public Date getTglSewa() {
+        return tglSewa;
     }
 
-    public void setTglPinjam(Date tglPinjam) {
-        this.tglPinjam = tglPinjam;
+    public void setTglSewa(Date tglSewa) {
+        this.tglSewa = tglSewa;
     }
 
     public Date getTglKembali() {
@@ -72,8 +72,8 @@ public class ModelPeminjaman {
     }
     
     public void simpanPeminjaman(){
-        String sql = "INSERT into peminjaman (id_pelanggan, id_mobil, tgl_pinjam, tgl_kembali, total_harga, status)"
-                + "VALUES ('"+getIdPelanggan()+"','"+getIdMobil()+"','"+getTglPinjam()+"'"
+        String sql = "INSERT into peminjaman (id_pelanggan, id_mobil, tgl_sewa, tgl_kembali, total_harga, status)"
+                + "VALUES ('"+getIDPelanggan()+"','"+getIDMobil()+"','"+getTglSewa()+"'"
                 + ",'"+getTglKembali()+"','"+getTotalHarga()+"','"+"Pinjam"+"')";
         
         try {

@@ -25,6 +25,7 @@ public class ViewPelanggan extends javax.swing.JFrame {
     
     public ViewPelanggan() {
         initComponents();
+        setLocationRelativeTo(this);
         
         CP = new ControllerPelanggan(this);
 

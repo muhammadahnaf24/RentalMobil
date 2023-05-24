@@ -20,6 +20,7 @@ public class ViewLogin extends javax.swing.JFrame {
      */
     public ViewLogin() {
         initComponents();
+        setLocationRelativeTo(this);
         CL = new ControllerLogin(this);
     }
 
